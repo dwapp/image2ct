@@ -1,4 +1,6 @@
 import QtQuick
+import QtQuick.Dialogs
+import QtQuick.Controls
 import image2ct
 
 Window {
@@ -6,23 +8,38 @@ Window {
     height: 480
     visible: true
     title: qsTr("Hello World")
-    property string filePath: "file:///usr/share/wallpapers/deepin/wallpaper-light.jpg"
+
+    ToolBar {
+        Button {
+            text: qsTr("Choose Image...")
+            onClicked: fileDialog.open()
+        }
+    }
 
     Image {
-        id: background
-        source: filePath
-        fillMode: Image.Stretch
+        id: image
         anchors.fill: parent
+        fillMode: Image.PreserveAspectFit
+    }
+
+    FileDialog {
+        id: fileDialog
+        currentFolder: "file:///usr/share/wallpapers/deepin"
+        //StandardPaths.standardLocations(StandardPaths.PicturesLocation)[0]
+        onAccepted: {
+            image.source = selectedFile
+            rect.source = selectedFile
+            rect2.source = selectedFile
+        }
     }
 
     Image {
         id: rect
         width: 1
         height: 1
-        visible: true
         source: filePath
         fillMode: Image.Stretch
-        Component.onCompleted: {
+        onSourceChanged: {
             rect.grabToImage(function(result) {
                 Helper.calcColorType(result.image);
             });
@@ -33,10 +50,9 @@ Window {
         id: rect2
         width: 2
         height: 2
-        visible: true
         source: filePath
         fillMode: Image.Stretch
-        Component.onCompleted: {
+        onSourceChanged: {
             rect2.grabToImage(function(result) {
                 Helper.calcColorType(result.image);
             });
