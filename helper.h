@@ -5,7 +5,7 @@
 #include <QImage>
 #include <QRgb>
 #include <QQmlEngine>
-#include <DGuiApplicationHelper>
+
 /*
 DGuiApplicationHelper::ColorType DGuiApplicationHelper::toColorType(const QColor &color)
 {
@@ -34,7 +34,7 @@ public:
     Q_INVOKABLE int calcColorType(const QImage &img) {
 
         if (img.width() == 1 && img.height() == 1) {
-            // 获取rgb颜色的亮度(转换为YUV格式)
+            // to YUV格式
             float luminance = 0.299 * qRed(img.pixel(0, 0))
                               + 0.587 * qRed(img.pixel(0, 0))
                               + 0.114 * qBlue(img.pixel(0, 0));
