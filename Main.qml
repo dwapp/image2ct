@@ -9,10 +9,17 @@ Window {
     visible: true
     title: qsTr("Hello World")
 
-    ToolBar {
+    Row {
+        anchors.top: parent.top
+        width: parent.width
         Button {
             text: qsTr("Choose Image...")
             onClicked: fileDialog.open()
+        }
+
+        Text {
+            id: ret
+            text: "Unknow"
         }
     }
 
@@ -54,7 +61,7 @@ Window {
         fillMode: Image.Stretch
         onSourceChanged: {
             rect2.grabToImage(function(result) {
-                Helper.calcColorType(result.image);
+                ret.text = Helper.calcColorType(result.image) ? "Light" : "Dark";
             });
         }
     }
